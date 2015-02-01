@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gll.test.entity.StuCour">
+	<resultMap type="com.gll.test.entity.StuCour" id="stuCouMap">
+		<id property="id" column="id" />
+		<result property="stu" column="sid" />
+		<result property="cou" column="cid" />
+	</resultMap>
+	<resultMap type="com.gll.test.entity.StuCour" id="stuMap" extends="stuCouMap">
+		<id property="sid" column="sid" />
+		<result property="sname" column="sname" />
+	</resultMap>
+	<resultMap type="com.gll.test.entity.StuCour" id="couMap" extends="stuCouMap">
+		<id property="cid" column="cid" />
+		<result property="cname" column="cname" />
+	</resultMap>
+	<insert id="stuCou_add" parameterType="com.gll.test.entity.StuCour">
+		insert into stucou(cid,sid) 
+		values(#{cou.cid},#{stu.sid})
+	</insert>
+	<select id="stuCou_select" parameterType="com.gll.test.entity.StuCour"
+		resultType="com.gll.test.entity.StuCour">
+		select cid,sid from stucou
+	</select>
+	
+	
+</mapper>

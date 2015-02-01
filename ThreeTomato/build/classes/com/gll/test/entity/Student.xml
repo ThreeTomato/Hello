@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gll.test.entity.Student">
+	<resultMap type="com.gll.test.entity.Student" id="stuMap">
+		<id property="sid" column="sid" />
+		<result property="sname" column="sname" />
+	</resultMap>
+	<resultMap type="com.gll.test.entity.Student" id="stuCouMap" extends="stuMap">
+		<collection property="course" ofType="com.gll.test.entity.Student">
+			<id property="cid" column="cid" />
+			<result property="cname" column="cname" />
+		</collection>
+	</resultMap>
+	
+	<insert id="stu_add" parameterType="com.gll.test.entity.Student">
+		insert into student(sname)
+		values(#{sname})
+	</insert>
+	
+	<select id="stu_select" parameterType="com.gll.test.entity.Student"
+		resultType="com.gll.test.entity.Student">
+		select sid,sname from student
+	</select>
+	
+	<!--查询所有学生的选课信息  -->
+	<select id="stuAndCour" resultMap="stuCouMap" parameterType="map">
+		select sc.cid,sc.sid,c.cname,s.sname from stucou sc, course c,student s
+		 where sc.cid=c.cid and sc.sid=s.sid
+	</select>
+	
+	<!--通过条件查询学生的选课信息  -->
+	<select id="stuAndCourWhere" resultMap="stuCouMap" parameterType="map">
+		select sc.cid,sc.sid,c.cname,s.sname from stucou sc, course c,student s
+		 where sc.cid=c.cid and sc.sid=#{sid}
+	</select>
+</mapper>
